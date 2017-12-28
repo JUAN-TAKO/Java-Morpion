@@ -2,7 +2,6 @@ package morpion;
 /**
  * Joueur
  */
-import java.util.Scanner;
 import Utils.*;
 public class Joueur {
 

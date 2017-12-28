@@ -64,7 +64,7 @@ public class VuePartie1v1 extends Observable{
         nomJoueur2 = nomJ2;
         
         window = new JFrame();
-        window.setSize(1000, 1000);
+        window.setSize(700, 700);
         
         window.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
