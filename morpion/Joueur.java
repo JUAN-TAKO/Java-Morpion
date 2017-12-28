@@ -10,10 +10,11 @@ public class Joueur {
     private Grille grille;
     private String nom;
     
-    public Joueur(State s, Grille g){
+    public Joueur(State s, Grille g, String nom){
         wins = 0;
         symbole = s;
         grille = g;
+        this.nom = nom;
     }
     public int getWins(){
         return wins;
