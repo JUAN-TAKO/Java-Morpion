@@ -18,7 +18,7 @@ public class AppliMorpion implements Observer{
     
     public AppliMorpion(){
         grille = new Grille(SIZE);
-        
+        //TEST DE FONCTIONNEMENT
         j1 = new Joueur(State.Cross, grille);
         j2 = new Joueur(State.Circle, grille);
         jcourrant = j1;
