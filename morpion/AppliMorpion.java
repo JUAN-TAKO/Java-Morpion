@@ -8,11 +8,12 @@ import java.util.Observable;
 import java.util.Observer;
 public class AppliMorpion implements Observer{
     
-    private VueMenu ihmm;
+    private VueMenu menu;
     
     public AppliMorpion(){
-        ihmm = new VueMenu();
-        ihmm.afficher();
+        menu = new VueMenu();
+        menu.addObserver(this);
+        menu.afficher();
     }
     
     public static void main(String[] args) {
@@ -22,6 +23,19 @@ public class AppliMorpion implements Observer{
     
     @Override
     public void update(Observable o, Object arg) {
-        
+        Message m = (Message)arg;
+        switch(m.getType()){
+            case QUITTER:
+            break;
+            
+            case SIMPLE:
+            break;
+            
+            case TOURNOI:
+            break;
+            
+            case MULTI:
+            break;
+        }
     }
 }

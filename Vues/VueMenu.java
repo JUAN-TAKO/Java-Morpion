@@ -206,7 +206,7 @@ public class VueMenu extends Observable {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //envoyer message pr lancer une partie multiple
-                Message pSimple = new Message(MessageType.MULTIPLE);; 
+                Message pSimple = new Message(MessageType.MULTI);; 
                 notifyObservers(pSimple);
                 clearChanged(); 
             }

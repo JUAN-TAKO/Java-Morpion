@@ -11,8 +11,10 @@ package Utils;
  */
 public enum MessageType{
     JOUER,
+    QUITTER,
+    GAGNE,
     SIMPLE,
-    MULTIPLE,
+    MULTI,
     TOURNOI;
     
  }
