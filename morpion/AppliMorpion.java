@@ -4,12 +4,13 @@ package morpion;
  */
 import Vues.*;
 import Utils.*;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 public class AppliMorpion implements Observer{
     
     private VueMenu menu;
-    
+    Observable controleur;
     public AppliMorpion(){
         menu = new VueMenu();
         menu.addObserver(this);
@@ -29,6 +30,10 @@ public class AppliMorpion implements Observer{
             break;
             
             case SIMPLE:
+                ArrayList<String> n = new ArrayList();
+                n.add("a");
+                n.add("b");
+                controleur = new ControleurSimple(3, 3, 2, n);
             break;
             
             case TOURNOI:

@@ -5,10 +5,20 @@
  */
 package morpion;
 
-/**
- *
- * @author JUAN
- */
-public class ControleurTournoi {
+import Utils.*;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
+public class ControleurTournoi extends Observable implements Observer{
+    private Controleur1V1 controleur;
     
+    public ControleurTournoi(int taille, int ligne, int score, ArrayList<String> noms){
+        
+    }
+    @Override
+    public void update(Observable o, Object arg) {
+        Message m = (Message)arg;
+        
+    }
 }
