@@ -56,34 +56,37 @@ public class Grille {
     public int size(){
         return size;
     }
-    public boolean actionGagnante(int posX, int posY, State symbole, int casesAligneesMinPourGagner){
+    public ArrayList<Integer> getWinningCoordinates(int posX, int posY, State symbole, int casesAligneesMinPourGagner){
         int directionX = -1;
         int directionY = 0;
         if(get(posX, posY) != symbole){
-            return false;
+            return new ArrayList<>();
         }
-        boolean aGagne = false;
-        aGagne = verifierLigne(casesAligneesMinPourGagner, posX, posY, directionX, directionY);
+        ArrayList<Integer> winningCoordinates = new ArrayList<>();
+        winningCoordinates.addAll(verifierLigne(casesAligneesMinPourGagner, posX, posY, directionX, directionY));
         directionY--;
-        aGagne |= verifierLigne(casesAligneesMinPourGagner,posX, posY, directionX, directionY);
+        winningCoordinates.addAll(verifierLigne(casesAligneesMinPourGagner, posX, posY, directionX, directionY));
         directionX++;
-        aGagne |= verifierLigne(casesAligneesMinPourGagner,posX, posY, directionX, directionY);
+        winningCoordinates.addAll(verifierLigne(casesAligneesMinPourGagner, posX, posY, directionX, directionY));
         directionX++;
-        aGagne |= verifierLigne(casesAligneesMinPourGagner,posX, posY, directionX, directionY);
+        winningCoordinates.addAll(verifierLigne(casesAligneesMinPourGagner, posX, posY, directionX, directionY));
 
-        return aGagne;
+        return winningCoordinates;
     }
-    private boolean verifierLigne(int casesAligneesMinPourGagner, int posX, int posY, int directionX, int directionY){
+    private ArrayList<Integer> verifierLigne(int casesAligneesMinPourGagner, int posX, int posY, int directionX, int directionY){
+        ArrayList<Integer> coordsLigneGagnante = new ArrayList<>();
+        coordsLigneGagnante.add(new Integer(posX + posY*size));
         int tempX = posX + directionX;
         int tempY = posY + directionY;
         int score = 1;
         State symbole = get(posX, posY);
         if(symbole == null){
-            return false;
+            return new ArrayList<>();
         }
         State tempSymbole = get(tempX, tempY);
         while (tempSymbole == symbole){
             score++;
+            coordsLigneGagnante.add(new Integer(tempX + tempY*size));
             tempX += directionX;
             tempY += directionY;
             tempSymbole = get(tempX, tempY);
@@ -93,10 +96,16 @@ public class Grille {
         tempSymbole = get(tempX, tempY);
         while (tempSymbole == symbole){
             score++;
+            coordsLigneGagnante.add(new Integer(tempX + tempY*size));
             tempX -= directionX;
             tempY -= directionY;
             tempSymbole = get(tempX, tempY);
         }
-        return score >= casesAligneesMinPourGagner;
+        if(score >= casesAligneesMinPourGagner){
+            return coordsLigneGagnante;
+        }
+        else{
+            return new ArrayList<>();
+        }
     }
 }

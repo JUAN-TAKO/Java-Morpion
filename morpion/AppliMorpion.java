@@ -30,6 +30,7 @@ public class AppliMorpion implements Observer{
             break;
             
             case SIMPLE:
+                menu.hide();
                 ArrayList<String> n = new ArrayList();
                 n.add("a");
                 n.add("b");

@@ -138,6 +138,7 @@ public class VueMenu extends Observable {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //envoyer message pr jouer à une partie simple
+                setChanged();
                 Message pSimple = new Message(MessageType.SIMPLE);; 
                 notifyObservers(pSimple);
                 clearChanged();   
@@ -170,6 +171,7 @@ public class VueMenu extends Observable {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //envoyer message pr lancer un tournoi
+                setChanged();
                 Message pSimple = new Message(MessageType.TOURNOI); 
                 notifyObservers(pSimple);
                 clearChanged(); 
@@ -206,6 +208,7 @@ public class VueMenu extends Observable {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //envoyer message pr lancer une partie multiple
+                setChanged();
                 Message pSimple = new Message(MessageType.MULTI);; 
                 notifyObservers(pSimple);
                 clearChanged(); 
@@ -238,7 +241,10 @@ public class VueMenu extends Observable {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                window.dispose(); //ferme la fenêtre quand on clique sur quitter
+                setChanged();
+                Message m = new Message(MessageType.QUITTER);; 
+                notifyObservers(m);
+                clearChanged(); 
             }
 
             @Override
@@ -265,5 +271,8 @@ public class VueMenu extends Observable {
         }
     public void afficher(){
         window.setVisible(true);
-    }    
+    }
+    public void hide(){
+        window.dispose();
+    }
 }

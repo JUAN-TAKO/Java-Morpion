@@ -13,6 +13,7 @@ public enum MessageType{
     JOUER,
     QUITTER,
     GAGNE,
+    FINISHED_BLINKING,
     SIMPLE,
     MULTI,
     TOURNOI;

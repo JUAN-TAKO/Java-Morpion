@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
@@ -30,11 +32,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 /**
  *
  * @author royetju
  */
-public class VuePartie1v1 extends Observable{
+public class VuePartie1v1 extends Observable implements ActionListener{
     //Données du jeu
     private int size;
     private String nomJoueur1;
@@ -57,7 +60,13 @@ public class VuePartie1v1 extends Observable{
     private ImageIcon cross;
     private ImageIcon circle;    
     private ArrayList<State> cases;
-            
+    
+    private final int BLINK_AMOUNT = 5;
+    private Timer blinkTimer;
+    private int blinkCount;
+    private ArrayList<Integer> blinkingIndexes;
+    private State blinkingState;
+    
     public VuePartie1v1(int s, String nomJ1, String nomJ2){
         size = s;
         nomJoueur1 = nomJ1;
@@ -108,36 +117,38 @@ public class VuePartie1v1 extends Observable{
             addListener(p, i);
         }
         update();
+        blinkTimer = new Timer(500, this);
+        blinkCount = 0;
     }
     private void addListener(JLabel l, final int i){
         l.addMouseListener(new MouseListener(){
 
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                  
-                }
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
-                @Override
-                public void mousePressed(MouseEvent e) {
-                }
+            }
 
-                @Override
-                public void mouseReleased(MouseEvent e) {
-                    setChanged();
-                    MessageIndex m = new MessageIndex(MessageType.JOUER, i);
-                    notifyObservers(m);
-                    clearChanged();
-                }
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
 
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                setChanged();
+                MessageIndex m = new MessageIndex(MessageType.JOUER, i);
+                notifyObservers(m);
+                clearChanged();
+            }
 
-                @Override
-                public void mouseExited(MouseEvent e) {
-                }
-                
-            });
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+
+        });
     }
     private void loadImages(){
         JLabel l = ((JLabel)(panelGrille.getComponent(0)));
@@ -149,26 +160,25 @@ public class VuePartie1v1 extends Observable{
     }
     public void updateCase(int i, State s){
         JLabel c = ((JLabel)(panelGrille.getComponent(i)));
-        if(s == null){
-            c.setIcon(null);
-        }
-        else{
-            
+        c.setHorizontalAlignment(SwingConstants.CENTER);
+        c.setVerticalAlignment(SwingConstants.CENTER);
+        c.setIcon(getIcon(s));
+        c.revalidate();
+        c.repaint();
+    }
+    private ImageIcon getIcon(State s){
+        ImageIcon r = null;
+        if(s != null){
             switch (s){
                 case Cross:
-                    c.setHorizontalAlignment(SwingConstants.CENTER);
-                    c.setVerticalAlignment(SwingConstants.CENTER);
-                    c.setIcon(cross);
+                    r = cross;
                     break;
                 case Circle:
-                    c.setHorizontalAlignment(SwingConstants.CENTER);
-                    c.setVerticalAlignment(SwingConstants.CENTER);
-                    c.setIcon(circle);
+                    r = circle;
                     break;
             }
         }
-        c.revalidate();
-        c.repaint();
+        return r;
     }
     private ImageIcon resizeIcon(ImageIcon ii, int width){
         return new ImageIcon(ii.getImage().getScaledInstance(width, width, java.awt.Image.SCALE_AREA_AVERAGING));
@@ -183,8 +193,43 @@ public class VuePartie1v1 extends Observable{
             updateCase(i, s);
         }
     }
+    private void blinkOnce(){
+        if(blinkingState == null){
+            blinkingState = cases.get(blinkingIndexes.get(0));
+        }
+        else{
+            blinkingState = null;
+        }
+        for(Integer i : blinkingIndexes){
+            JLabel l = (JLabel)panelGrille.getComponent(i);
+            l.setIcon(getIcon(blinkingState));
+            l.revalidate();
+            l.repaint();
+        }
+        
+    }
+    public void blink(ArrayList<Integer> blinking){
+        blinkingIndexes = blinking;
+        blinkTimer.start();
+    }
     public void afficher(){
        window.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(blinkCount == BLINK_AMOUNT){
+            blinkCount = 0;
+            blinkTimer.stop();
+            setChanged();
+            Message ms = new Message(MessageType.FINISHED_BLINKING);
+            notifyObservers(ms);
+            clearChanged();
+        }
+        else{
+            blinkOnce();
+            blinkCount++;
+        }
     }
     
 }
