@@ -75,8 +75,4 @@ public class VueParametres {
     public void afficher(){
         window.setVisible(true);
     }
-    public static void main(String[] args){
-        VueParametres v = new VueParametres();
-        v.afficher();
-    }
 }
