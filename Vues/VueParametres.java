@@ -149,7 +149,6 @@ public class VueParametres {
             }
             
         });
-        updateNbr();
         
         // Noms Joueurs
         panelPseudos = new JPanel(new GridLayout(1,2));
@@ -162,12 +161,6 @@ public class VueParametres {
         panelPseudos.add(panelLabelPseudos);
         panelChampsPseudos = new JPanel();
         panelPseudos.add(panelChampsPseudos);
-       
-       
-
-        
-        
-        
         
         panelBoutons = new JPanel(new GridLayout(1,2));
         boutonQuitter = new JButton("Quitter");
@@ -179,6 +172,8 @@ public class VueParametres {
         panelBoutons.add(panelQuitter);
         panelBoutons.add(panelValider);
         panelSud.add(panelBoutons);
+        
+        updateNbr();
         
         boutonQuitter.addMouseListener(new MouseListener(){
             @Override
