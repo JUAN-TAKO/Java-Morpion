@@ -163,8 +163,6 @@ public class VuePartie1v1 extends Observable implements ActionListener{
         c.setHorizontalAlignment(SwingConstants.CENTER);
         c.setVerticalAlignment(SwingConstants.CENTER);
         c.setIcon(getIcon(s));
-        c.revalidate();
-        c.repaint();
     }
     private ImageIcon getIcon(State s){
         ImageIcon r = null;
@@ -192,6 +190,8 @@ public class VuePartie1v1 extends Observable implements ActionListener{
             State s = cases.get(i);
             updateCase(i, s);
         }
+        panelGrille.revalidate();
+        panelGrille.repaint();
     }
     private void blinkOnce(){
         if(blinkingState == null){

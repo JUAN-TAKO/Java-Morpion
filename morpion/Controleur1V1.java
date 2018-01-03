@@ -27,20 +27,28 @@ public class Controleur1V1 extends Observable implements Observer{
     private VuePartie1v1 vue;
     private boolean active;
     
-    public Controleur1V1(int taille, int ligne, ArrayList<String> noms){
+    public Controleur1V1(int taille, int ligne, Joueur joueur1, Joueur joueur2){
         LIGNE_MIN = ligne;
         SIZE = taille;
         grille = new Grille(taille);
-        vue = new VuePartie1v1(SIZE, noms.get(0), noms.get(1));
-        j1 = new Joueur(State.Cross, grille, noms.get(0));
-        j2 = new Joueur(State.Circle, grille, noms.get(1));
+        vue = new VuePartie1v1(SIZE, joueur1.getNom(), joueur2.getNom());
+        j1 = joueur1;
+        j2 = joueur2;
         jcourant = j1;
         active = true;
         vue.addObserver(this);
         vue.afficher();
     }
-    
-    public void next(){
+    public void reset(Joueur joueur1, Joueur joueur2){
+        j1 = joueur1;
+        j2 = joueur2;
+        jcourant = j1;
+        System.out.println(j1.getNom());
+        System.out.println(j1.getSymbole());
+        grille.reset();
+        vue.update(grille.getStates());
+    }
+    private void next(){
         if(jcourant == j1){
             jcourant = j2;
         }
@@ -62,9 +70,8 @@ public class Controleur1V1 extends Observable implements Observer{
                         int y = i / grille.size();
                         ArrayList<Integer> wc = grille.getWinningCoordinates(x, y, jcourant.getSymbole(), LIGNE_MIN);
                         if(wc.size() > 0){
-                            System.out.println("Le joueur " + jcourant.getSymbole() + " a gagne");
+                            System.out.println(jcourant.getNom() + " a gagné la manche");
                             jcourant.win();
-                            vue.update(grille.getStates());
                             active = false;
                             vue.blink(wc);
                         }
@@ -72,7 +79,6 @@ public class Controleur1V1 extends Observable implements Observer{
                             System.out.println("égalité");
                             j1.win();
                             j2.win();
-                            grille.reset();
                         }
                         vue.update(grille.getStates());
                         next();
@@ -80,19 +86,19 @@ public class Controleur1V1 extends Observable implements Observer{
                 }
                 break;
             case FINISHED_BLINKING:
-        {
-            try {
-                Thread.sleep(300);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Controleur1V1.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+                
+                try {
+                    Thread.sleep(300);
+                }catch (InterruptedException ex) {
+                    Logger.getLogger(Controleur1V1.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 int in = 1;
                 if(jcourant==j1){
                     in = 0;
                 }
                 setChanged();
-                MessageIndex ms = new MessageIndex(MessageType.GAGNE, in);
+                MessageIndex ms = new MessageIndex(MessageType.TERMINE, in);
                 notifyObservers(ms);
                 clearChanged();
                 active = true;

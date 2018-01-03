@@ -12,7 +12,7 @@ package Utils;
 public enum MessageType{
     JOUER,
     QUITTER,
-    GAGNE,
+    TERMINE,
     FINISHED_BLINKING,
     SIMPLE,
     MULTI,

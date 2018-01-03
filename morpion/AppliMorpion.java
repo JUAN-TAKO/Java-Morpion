@@ -32,8 +32,8 @@ public class AppliMorpion implements Observer{
             case SIMPLE:
                 menu.hide();
                 ArrayList<String> n = new ArrayList();
-                n.add("a");
-                n.add("b");
+                n.add("Delphine");
+                n.add("Julian");
                 controleur = new ControleurSimple(3, 3, 2, n);
             break;
             

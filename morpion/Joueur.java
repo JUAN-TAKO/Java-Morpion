@@ -7,13 +7,11 @@ public class Joueur {
 
     private State symbole;
     private int wins;
-    private Grille grille;
     private String nom;
     
-    public Joueur(State s, Grille g, String nom){
+    public Joueur(State s, String nom){
         wins = 0;
         symbole = s;
-        grille = g;
         this.nom = nom;
     }
     public int getWins(){
@@ -24,6 +22,9 @@ public class Joueur {
     }
     public State getSymbole(){
         return symbole;
+    }
+    public void setSymbole(State s){
+       symbole = s;
     }
     public String getNom(){
         return nom;
