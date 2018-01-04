@@ -33,16 +33,14 @@ public class VueVictoire {
     public VueVictoire(){
     window = new JFrame();
     window.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-    window.setSize(400,400);
+    window.setSize(400,300);
     Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
     window.setTitle("VICTOIRE");
     
     main = new JPanel(new BorderLayout());
     window.add(main);
-    
-    
-    
+
     joueur = new JPanel();
     main.add(joueur, BorderLayout.NORTH);
     
@@ -72,8 +70,8 @@ public class VueVictoire {
         System.out.println("symbole");
     }
    
-    
     public void afficher(){
         window.setVisible(true);
+        afficherSymbole();
     }
 }

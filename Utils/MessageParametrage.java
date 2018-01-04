@@ -12,12 +12,13 @@ package Utils;
 public class MessageParametrage extends Message {
     
     private int tailleGrille;
+    private int nbCoups;
     private int nbJoueurs;
     
-    public MessageParametrage(MessageType m, int tG, int nbJ){
-        
+    public MessageParametrage(MessageType m, int tG, int nbJ, int nbC){   
         super(m);
         tailleGrille = tG;
+        nbCoups = nbC;
         nbJoueurs = nbJ;
     }
     

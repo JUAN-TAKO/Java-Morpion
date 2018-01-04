@@ -6,6 +6,7 @@
 package morpion;
 
 import Utils.*;
+import Vues.VueParametres;
 import Vues.VueVictoire;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -22,11 +23,13 @@ public class ControleurSimple extends Observable implements Observer{
     private Joueur j1;
     private Joueur j2;
     private VueVictoire vv;
+    private VueParametres vp;
     
     public ControleurSimple(int taille, int ligne, int score, ArrayList<String> noms){
         SCORE_MIN = score;
         j1 = new Joueur(State.Cross, noms.get(0));
         j2 = new Joueur(State.Circle, noms.get(1));
+        vp = new VueParametres(0);
         vv = new VueVictoire();
         controleur = new Controleur1V1(taille, ligne, j1, j2);
         controleur.addObserver(this);
@@ -38,16 +41,12 @@ public class ControleurSimple extends Observable implements Observer{
             case TERMINE:
                 MessageIndex mi = (MessageIndex)arg;
                 if(j1.getWins() >= SCORE_MIN){
-                    System.out.println("oui");
                     vv.afficher();
-                    vv.afficherJoueur(j1.getNom());
-                    vv.afficherSymbole();
+                    vv.afficherJoueur(j1.getNom());  
                 }
                 else if(j2.getWins() >= SCORE_MIN){
                     vv.afficher();
                     vv.afficherJoueur(j2.getNom());
-                    vv.afficherSymbole();
-                     System.out.println("non");
                 }
                 else{
                     State stmp = j2.getSymbole();

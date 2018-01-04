@@ -1,15 +1,19 @@
 package Vues;
 
+import Utils.MessageIndex;
+import Utils.MessageParametrage;
+import Utils.MessageType;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Observable;
 
 
 
-public class VueParametres {
+public class VueParametres extends Observable{
     
     private JFrame window;
     
@@ -41,7 +45,9 @@ public class VueParametres {
     private JButton boutonQuitter;
     private JTextField nomJoueur;
     
-    public VueParametres(){
+    private int[] tableauListeDeroulante;
+    
+    public VueParametres(int version){
     
     window = new JFrame();
     window.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
@@ -57,8 +63,6 @@ public class VueParametres {
          // =================================================================================
         // NORD
         JPanel panelNord = new JPanel() ;
-//        panelNord.add(new JLabel("Veuillez sélectionner le nombre de joueurs et leurs noms"));
-//        mainPanel.add(panelNord, BorderLayout.NORTH);
 
          // =================================================================================
         // OUEST 
@@ -98,6 +102,7 @@ public class VueParametres {
         listeTailleGrille.addItem("7x7");
         listeTailleGrille.addItem("9x9");
         
+        int[] tableauTailleGrille = new int[]{3,5,7,9};
         panelListeGrille.add(listeTailleGrille);
         panelTailleGrille.add(panelListeGrille);
         panelCentre.add(panelTailleGrille);
@@ -123,22 +128,39 @@ public class VueParametres {
          
           panelNbCoups.add(panelListeNb);
           
+          int[] tableauNbCoups = new int[]{3,4,5,6,7,8,9};
+          
         // selection du nombre de joueurs
-        panelNbJoueurs = new JPanel(new GridLayout(1,2));
-        panelLabelNbJoueurs = new JPanel();
-        panelNbJoueurs.add(panelLabelNbJoueurs);
-        panelCentre.add(panelNbJoueurs);
-        panelLabelNbJoueurs.add(new JLabel("Nombre de joueurs : "));
-        panelListeD = new JPanel();
+        
         listeDeroulante = new JComboBox();
-        panelListeD.add(listeDeroulante);
         listeDeroulante.setPreferredSize(new Dimension(50,30));
         listeDeroulante.addItem(2);
         listeDeroulante.addItem(4);
         listeDeroulante.addItem(8);
         listeDeroulante.addItem(16);
         listeDeroulante.addItem(32);
-        panelNbJoueurs.add(panelListeD);
+        tableauListeDeroulante = new int[]{2,4,8,16,32};
+        
+          if(version == 1){ //si on est en mode tournoi alors on peut choisir un nombre de joueurs
+              panelNbJoueurs = new JPanel(new GridLayout(1,2));
+              panelLabelNbJoueurs = new JPanel();
+              panelNbJoueurs.add(panelLabelNbJoueurs);
+              panelCentre.add(panelNbJoueurs);
+              panelLabelNbJoueurs.add(new JLabel("Nombre de joueurs : "));
+              panelListeD = new JPanel();
+              panelNbJoueurs.add(panelListeD);
+              panelListeD.add(listeDeroulante);
+          }
+          else if(version ==0){
+              panelNbJoueurs = new JPanel(new GridLayout(1,1));
+              panelLabelNbJoueurs = new JPanel();
+              panelNbJoueurs.add(panelLabelNbJoueurs);
+              panelCentre.add(panelNbJoueurs);
+              panelLabelNbJoueurs.add(new JLabel("Nombre de joueurs : "));
+              panelListeD = new JPanel();
+          }
+        
+     
         
         listeDeroulante.setSelectedIndex(0);
         
@@ -149,6 +171,7 @@ public class VueParametres {
             }
             
         });
+          
         
         // Noms Joueurs
         panelPseudos = new JPanel(new GridLayout(1,2));
@@ -205,6 +228,16 @@ public class VueParametres {
         boutonValider.addMouseListener(new MouseListener() {
         @Override
         public void mouseClicked(MouseEvent e) {
+            
+                setChanged();
+                MessageParametrage m = new MessageParametrage(MessageType.PARAMETRE, 
+                                                              tableauTailleGrille[listeTailleGrille.getSelectedIndex()],
+                                                              tableauNbCoups[listeNbCoups.getSelectedIndex()],
+                                                              tableauListeDeroulante[listeDeroulante.getSelectedIndex()]
+                                                              );
+                notifyObservers(m);
+                clearChanged();
+            
         }
 
         @Override

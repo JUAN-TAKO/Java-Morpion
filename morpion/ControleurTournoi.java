@@ -6,6 +6,7 @@
 package morpion;
 
 import Utils.*;
+import Vues.VueParametres;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class ControleurTournoi extends Observable implements Observer{
     private int indexGagnants;
     private Joueur j1;
     private Joueur j2;
+    private VueParametres vp;
     
     public ControleurTournoi(int taille, int ligne, int score, ArrayList<String> noms){
         gagnants = new ArrayList<>();
@@ -34,6 +36,8 @@ public class ControleurTournoi extends Observable implements Observer{
         indexJoueurs = 0;
         indexGagnants = 0;
         nombreJoueurs = noms.size();
+        vp = new VueParametres(1);
+        vp.afficher();
         Collections.shuffle(noms);
         State symbole = State.Cross;
         HashMap<String, Integer> mapNoms = new HashMap<>();
