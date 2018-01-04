@@ -36,7 +36,6 @@ public class ControleurTournoi extends Observable implements Observer{
         indexGagnants = 0;
         nombreJoueurs = noms.size();
         Collections.shuffle(noms);
-        State symbole = State.Cross;
         HashMap<String, Integer> mapNoms = new HashMap<>();
         for(int i = 0; i < noms.size(); i++){
             if(noms.get(i) == ""){
@@ -57,18 +56,12 @@ public class ControleurTournoi extends Observable implements Observer{
         for(String s : noms){
             Integer n = mapNoms.get(s);
             if(n==-1){
-                joueurs.add(new Joueur(symbole, s));
+                joueurs.add(new Joueur(null, s));
             }
             else{
-                joueurs.add(new Joueur(symbole, s + " " + n));
+                joueurs.add(new Joueur(null, s + " " + n));
             }
             mapNoms.put(s, n-1);
-            if(symbole == State.Cross){
-                symbole = State.Circle;
-            }
-            else{
-                symbole = State.Cross;
-            }
         }
         gagnants.add(joueurs);
         gagnants.add(new ArrayList<>());
