@@ -6,6 +6,7 @@
 package morpion;
 
 import Utils.*;
+import Vues.VueVictoire;
 import Vues.VueParametres;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -96,8 +97,6 @@ public class ControleurTournoi extends Observable implements Observer{
         controleur.dispose();
         
         indexJoueurs += 2;
-        System.out.println(indexJoueurs);
-        System.out.println(nombreJoueurs);
         
         if(indexJoueurs >= nombreJoueurs){
             nombreJoueurs /= 2;
@@ -106,7 +105,10 @@ public class ControleurTournoi extends Observable implements Observer{
             indexGagnants++;
         }
         if(nombreJoueurs == 1){
-            
+            VueVictoire v = new VueVictoire();
+            v.afficherJoueur(j.getNom());
+            v.afficherSymbole();
+            v.afficher();
         }
         else{
             nouvellePartie();
