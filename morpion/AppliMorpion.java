@@ -28,6 +28,7 @@ public class AppliMorpion implements Observer{
         ArrayList<String> n = new ArrayList();
         switch(m.getType()){
             case QUITTER:
+                menu.hide();
             break;
             
             case SIMPLE:
