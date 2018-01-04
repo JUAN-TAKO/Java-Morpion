@@ -248,35 +248,37 @@ public class VueParametres {
         panelChampsPseudos.repaint();
        }
         
-    public void nbCoups(){
-        String tailleG = listeTailleGrille.getSelectedItem().toString();
+    public void nbCoups(){ //on adapte le nombre de symbole à aligner en fonction de la taille de la grille choisie
+        int tailleG = listeTailleGrille.getSelectedIndex(); //on récupère l'index de la taille de la grille choisie
  
         listeNbCoups.removeAllItems();  
         listeDeroulante.setSelectedIndex(0);
         
-        if(tailleG == "3x3"){
+        if(tailleG == 0){ //si la taille de la grille est de 3x3 seuls 3 symboles sont à aligner pour gagner
             listeNbCoups.addItem(3);  
         }
         
-        else if(tailleG == "5x5"){
+        else if(tailleG == 1){ //si elle est de 5x5 on peut choisir d'aligner 3, 4 ou 5 symboles pour gagner
             listeNbCoups.addItem(3);  
             listeNbCoups.addItem(4);  
             listeNbCoups.addItem(5);  
             
         }
         
-        else if(tailleG == "7x7"){
+        else if(tailleG == 2){ //si elle est de 5x5 on peut choisir d'aligner 3, 4, 5, 6 ou 7 symboles pour gagner
             listeNbCoups.addItem(3);  
             listeNbCoups.addItem(4);  
             listeNbCoups.addItem(5);
+            listeNbCoups.addItem(6);
             listeNbCoups.addItem(7);  
-            
-            
+  
         }
+        
         else{
             listeNbCoups.addItem(3);  
             listeNbCoups.addItem(4);  
             listeNbCoups.addItem(5);
+            listeNbCoups.addItem(6);
             listeNbCoups.addItem(7); 
             listeNbCoups.addItem(9);
         }

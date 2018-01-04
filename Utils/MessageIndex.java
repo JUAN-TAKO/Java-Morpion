@@ -9,6 +9,8 @@ package Utils;
  *
  * @author JUAN
  */
+
+//Cette classe permet de contenir les infos concernant les index (tableaux etc) d'un message
 public class MessageIndex extends Message{
     
     private int index;

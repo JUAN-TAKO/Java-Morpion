@@ -16,6 +16,7 @@ public enum MessageType{
     FINISHED_BLINKING,
     SIMPLE,
     MULTI,
-    TOURNOI;
+    TOURNOI,
+    PARAMETRE;
     
  }
