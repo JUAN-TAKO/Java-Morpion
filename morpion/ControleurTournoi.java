@@ -6,6 +6,7 @@
 package morpion;
 
 import Utils.*;
+import Vues.VueVictoire;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -102,7 +103,10 @@ public class ControleurTournoi extends Observable implements Observer{
             indexGagnants++;
         }
         if(nombreJoueurs == 1){
-            
+            VueVictoire v = new VueVictoire();
+            v.afficherJoueur(j.getNom());
+            v.afficherSymbole();
+            v.afficher();
         }
         else{
             nouvellePartie();
