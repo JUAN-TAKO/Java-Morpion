@@ -276,7 +276,7 @@ public class VueParametres extends Observable{
                      panelC2 = new JPanel(new GridLayout(nbJ,1));
                      panelChampsPseudos.add(panelC2);
                      for (int i = 0; i < nbJ; i++) { 
-                        JTextField a = new JTextField();
+                        JTextField a = new JTextField("");
                         panelC2.add(a);
                     }
                 }
@@ -284,7 +284,7 @@ public class VueParametres extends Observable{
                     panelC2 = new JPanel(new GridLayout(8,nbJ/8)); //s'il est > 8 on les ordonne par colonne de 8
                     panelChampsPseudos.add(panelC2);
                      for (int i = 0; i < nbJ; i++) {  
-                        panelC2.add(new JTextField("                        "));
+                        panelC2.add(new JTextField(""));
                     }
                 }
         panelChampsPseudos.revalidate();
@@ -329,7 +329,7 @@ public class VueParametres extends Observable{
     
     public ArrayList<String> getText(){
         ArrayList<String> nomsJoueurs = new ArrayList<>();
-        for(int i = 0 ; i <= panelC2.getComponentCount() ; i++){
+        for(int i = 0 ; i < panelC2.getComponentCount() ; i++){
            nomsJoueurs.add(((JTextField)panelC2.getComponent(i)).getText());
         }
         return nomsJoueurs;

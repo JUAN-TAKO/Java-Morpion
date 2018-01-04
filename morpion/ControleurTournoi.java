@@ -59,7 +59,7 @@ public class ControleurTournoi extends Observable implements Observer{
         }
         for(String s : noms){
             Integer n = mapNoms.get(s);
-            if(n==-1){
+            if(n == -1){
                 joueurs.add(new Joueur(null, s));
             }
             else{

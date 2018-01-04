@@ -10,6 +10,7 @@ import Vues.VueParametres;
 import Vues.VueVictoire;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -58,11 +59,41 @@ public class ControleurSimple extends Observable implements Observer{
                 MessageParametrage mp = (MessageParametrage)arg;
                 ArrayList<String> nomsJoueurs = new ArrayList<>();
                 nomsJoueurs = mp.getNomsJoueurs();
-                Collections.shuffle(nomsJoueurs);
-                j1 = new Joueur(State.Cross, nomsJoueurs.get(0));
-                j2 = new Joueur(State.Circle, nomsJoueurs.get(1));
-                Controleur1V1 controleur = new Controleur1V1(mp.getTailleGrille(), mp.getNbCoups(), j1, j2);
-                
+                 HashMap<String, Integer> mapNoms = new HashMap<>();
+                 ArrayList<Joueur>joueurs = new ArrayList<>();
+                 for(int i = 0; i < nomsJoueurs.size(); i++){
+                    System.out.println("\"" + nomsJoueurs.get(i) + "\"");
+                    if(nomsJoueurs.get(i).equals("") || nomsJoueurs.get(i) == null){
+                        nomsJoueurs.set(i, "Joueur");
+                    }
+                    String s = nomsJoueurs.get(i);
+                    Integer n = mapNoms.get(s);
+                    if(n == null){
+                        mapNoms.put(s, -1);
+                    }
+                    else if(n == -1){
+                        mapNoms.put(s, 2);
+                    }
+                    else{
+                        mapNoms.put(s, n+1);
+                    }
+                 }
+                 for(String s : nomsJoueurs){
+                    Integer n = mapNoms.get(s);
+                    if(n == -1){
+                        joueurs.add(new Joueur(null, s));
+                    }
+                    else{
+                        joueurs.add(new Joueur(null, s + " " + n));
+                    }
+                    mapNoms.put(s, n-1);
+                 }
+                 j1 = joueurs.get(1);
+                 j2 = joueurs.get(0);
+                 
+                 Controleur1V1 controleur = new Controleur1V1(mp.getTailleGrille(), mp.getNbCoups(), j1, j2);
+                 controleur.addObserver(this);
+            break;
         }
     }
 }
