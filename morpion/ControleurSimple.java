@@ -89,8 +89,9 @@ public class ControleurSimple extends Observable implements Observer{
                     mapNoms.put(s, n-1);
                  }
                  j1 = joueurs.get(1);
+                 j1.setSymbole(State.Cross);
                  j2 = joueurs.get(0);
-                 
+                 j2.setSymbole(State.Circle);
                  Controleur1V1 controleur = new Controleur1V1(mp.getTailleGrille(), mp.getNbCoups(), j1, j2);
                  controleur.addObserver(this);
             break;
