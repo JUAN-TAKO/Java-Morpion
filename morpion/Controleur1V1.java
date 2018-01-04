@@ -37,7 +37,10 @@ public class Controleur1V1 extends Observable implements Observer{
         jcourant = j1;
         active = true;
         vue.addObserver(this);
-        vue.afficher();
+        vue.setVisible(true);
+    }
+    public void dispose(){
+        vue.dispose();
     }
     public void reset(Joueur joueur1, Joueur joueur2){
         j1 = joueur1;

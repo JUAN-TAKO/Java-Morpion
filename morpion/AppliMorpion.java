@@ -25,19 +25,29 @@ public class AppliMorpion implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         Message m = (Message)arg;
+        ArrayList<String> n = new ArrayList();
         switch(m.getType()){
             case QUITTER:
             break;
             
             case SIMPLE:
                 menu.hide();
-                ArrayList<String> n = new ArrayList();
                 n.add("Delphine");
                 n.add("Julian");
                 controleur = new ControleurSimple(3, 3, 2, n);
             break;
             
             case TOURNOI:
+                menu.hide();
+                n.add("Delphine");
+                n.add("Julian");
+                n.add("Delphine");
+                n.add("");
+                n.add("");
+                n.add("Damien");
+                n.add("Thibaut");
+                n.add("Joueur");
+                controleur = new ControleurTournoi(3, 3, 2, n);
             break;
             
             case MULTI:

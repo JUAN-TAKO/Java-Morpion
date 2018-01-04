@@ -101,6 +101,7 @@ public class VuePartie1v1 extends Observable implements ActionListener{
         panelCentre.add(panelNord, BorderLayout.NORTH);
         panelCentre.add(panelGrille, BorderLayout.CENTER);
         window.add(panelPrincipal);
+        window.setTitle(nomJoueur1 + " VS " + nomJoueur2);
         
         cases = new ArrayList<>();
         for(int i = 0; i < size * size; i++){
@@ -212,8 +213,11 @@ public class VuePartie1v1 extends Observable implements ActionListener{
         blinkingIndexes = blinking;
         blinkTimer.start();
     }
-    public void afficher(){
-       window.setVisible(true);
+    public void setVisible(boolean v){
+       window.setVisible(v);
+    }
+    public void dispose(){
+        window.dispose();
     }
 
     @Override
