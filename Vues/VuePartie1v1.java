@@ -54,14 +54,22 @@ public class VuePartie1v1 extends Observable implements ActionListener{
     private JPanel panelNord;
     private JPanel panelGrille;
     
+    private JLabel labelJoueur1;
+    private JLabel labelJoueur2;
+    private JLabel symboleJoueur1;
+    private JLabel symboleJoueur2;
+
     //images
     private ImageIcon baseCircle;
     private ImageIcon baseCross;
     private ImageIcon cross;
-    private ImageIcon circle;    
+    private ImageIcon circle;
+    private ImageIcon crossHalf;
+    private ImageIcon circleHalf;
+    
     private ArrayList<State> cases;
     
-    private final int BLINK_AMOUNT = 5;
+    private final int BLINK_AMOUNT = 6;
     private Timer blinkTimer;
     private int blinkCount;
     private ArrayList<Integer> blinkingIndexes;
@@ -73,7 +81,7 @@ public class VuePartie1v1 extends Observable implements ActionListener{
         nomJoueur2 = nomJ2;
         
         window = new JFrame();
-        window.setSize(700, 700);
+        window.setSize(1150, 700);
         
         window.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
@@ -89,8 +97,8 @@ public class VuePartie1v1 extends Observable implements ActionListener{
         
         panelPrincipal = new JPanel(new BorderLayout());
         panelCentre = new JPanel(new BorderLayout());
-        panelOuest = new JPanel(new BorderLayout());
-        panelEst = new JPanel(new BorderLayout());
+        panelOuest = new JPanel(new GridLayout(4, 1));
+        panelEst = new JPanel(new GridLayout(4, 1));
         panelNord = new JPanel(new BorderLayout());
         
         panelGrille = new JPanel(new GridLayout(size, size));
@@ -117,8 +125,36 @@ public class VuePartie1v1 extends Observable implements ActionListener{
             JLabel p = (JLabel)panelGrille.getComponent(i);
             addListener(p, i);
         }
+
+        labelJoueur1 = new JLabel(nomJoueur1);
+        labelJoueur2 = new JLabel(nomJoueur2);
+        
+        labelJoueur1.setHorizontalAlignment(SwingConstants.CENTER);
+        labelJoueur1.setVerticalAlignment(SwingConstants.CENTER);
+        
+        labelJoueur2.setHorizontalAlignment(SwingConstants.CENTER);
+        labelJoueur2.setVerticalAlignment(SwingConstants.CENTER);
+        
+        symboleJoueur1 = new JLabel();
+        symboleJoueur2 = new JLabel();
+        
+        symboleJoueur1.setHorizontalAlignment(SwingConstants.CENTER);
+        symboleJoueur1.setVerticalAlignment(SwingConstants.CENTER);
+        
+        symboleJoueur2.setHorizontalAlignment(SwingConstants.CENTER);
+        symboleJoueur2.setVerticalAlignment(SwingConstants.CENTER);
+        
+        panelOuest.add(labelJoueur1);
+        panelOuest.add(symboleJoueur1);
+        
+        panelEst.add(labelJoueur2);
+        panelEst.add(symboleJoueur2);
+        
+        panelOuest.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
+        panelEst.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 40));
+        
         update();
-        blinkTimer = new Timer(500, this);
+        blinkTimer = new Timer(400, this);
         blinkCount = 0;
     }
     private void addListener(JLabel l, final int i){
@@ -154,9 +190,10 @@ public class VuePartie1v1 extends Observable implements ActionListener{
     private void loadImages(){
         JLabel l = ((JLabel)(panelGrille.getComponent(0)));
         int minSize = Math.min(l.getWidth(), l.getHeight());
-        //System.out.println(minSize);
         circle = resizeIcon(baseCircle, minSize);
         cross = resizeIcon(baseCross, minSize);
+        crossHalf = resizeIcon(baseCross, (int)((double)minSize/1.5));
+        circleHalf = resizeIcon(baseCircle, (int)((double)minSize/1.5));
         update();
     }
     public void updateCase(int i, State s){
@@ -191,8 +228,10 @@ public class VuePartie1v1 extends Observable implements ActionListener{
             State s = cases.get(i);
             updateCase(i, s);
         }
-        panelGrille.revalidate();
-        panelGrille.repaint();
+        symboleJoueur2.setIcon(circleHalf);
+        symboleJoueur1.setIcon(crossHalf);
+        panelPrincipal.revalidate();
+        panelPrincipal.repaint();
     }
     private void blinkOnce(){
         if(blinkingState == null){

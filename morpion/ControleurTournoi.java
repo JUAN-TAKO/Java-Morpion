@@ -78,15 +78,34 @@ public class ControleurTournoi extends Observable implements Observer{
         j2 = gagnants.get(indexGagnants).get(indexJoueurs+1);
         j1.setSymbole(State.Cross);
         j2.setSymbole(State.Circle);
+        j1.setWins(0);
+        j2.setWins(0);
         System.out.println(j1.getNom() + " VS " + j2.getNom());
         controleur = new Controleur1V1(size, ligneMin, j1, j2);
         controleur.addObserver(this);
+        
+    }
+    private void finPartie(Joueur j){
+        
+        System.out.println(j.getNom() + " a gagné la partie");
+        gagnants.get(indexGagnants+1).add(j);
+        controleur.dispose();
+        
         indexJoueurs += 2;
+        System.out.println(indexJoueurs);
+        System.out.println(nombreJoueurs);
+        
         if(indexJoueurs >= nombreJoueurs){
             nombreJoueurs /= 2;
             indexJoueurs = 0;
             gagnants.add(new ArrayList<>());
             indexGagnants++;
+        }
+        if(nombreJoueurs == 1){
+            
+        }
+        else{
+            nouvellePartie();
         }
         
     }
@@ -97,16 +116,10 @@ public class ControleurTournoi extends Observable implements Observer{
             case TERMINE:
                 MessageIndex mi = (MessageIndex)arg;
                 if(j1.getWins() >= SCORE_MIN){
-                    System.out.println(j1.getNom() + " a gagné la partie");
-                    gagnants.get(indexGagnants+1).add(j1);
-                    controleur.dispose();
-                    nouvellePartie();
+                    finPartie(j1);
                 }
                 else if(j2.getWins() >= SCORE_MIN){
-                    System.out.println(j2.getNom() + " a gagné la partie");
-                    gagnants.get(indexGagnants+1).add(j2);
-                    controleur.dispose();
-                    nouvellePartie();
+                    finPartie(j2);
                 }
                 else{
                     State stmp = j2.getSymbole();

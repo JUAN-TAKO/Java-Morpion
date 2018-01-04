@@ -17,6 +17,9 @@ public class Joueur {
     public int getWins(){
         return wins;
     }
+    public void setWins(int w){
+        wins = w;
+    }
     public void win(){
         wins++;
     }
