@@ -31,23 +31,28 @@ public class ControleurSimple extends Observable implements Observer{
         controleur = new Controleur1V1(taille, ligne, j1, j2);
         controleur.addObserver(this);
     }
-    
+    public void finPartie(Joueur j){
+        vv.afficher();
+        vv.afficherJoueur(j.getNom());
+        vv.afficherSymbole();
+        controleur.dispose();
+        setChanged();
+        notifyObservers(new Message(MessageType.TERMINE));            
+        clearChanged();
+    }
     public void update(Observable o, Object arg){
         Message m = (Message)arg;
         switch(m.getType()){
             case TERMINE:
                 MessageIndex mi = (MessageIndex)arg;
                 if(j1.getWins() >= SCORE_MIN){
-                    System.out.println("oui");
-                    vv.afficher();
-                    vv.afficherJoueur(j1.getNom());
-                    vv.afficherSymbole();
+                    finPartie(j1);
                 }
                 else if(j2.getWins() >= SCORE_MIN){
                     vv.afficher();
                     vv.afficherJoueur(j2.getNom());
                     vv.afficherSymbole();
-                     System.out.println("non");
+                    controleur.dispose();
                 }
                 else{
                     State stmp = j2.getSymbole();

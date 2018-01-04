@@ -93,8 +93,6 @@ public class ControleurTournoi extends Observable implements Observer{
         controleur.dispose();
         
         indexJoueurs += 2;
-        System.out.println(indexJoueurs);
-        System.out.println(nombreJoueurs);
         
         if(indexJoueurs >= nombreJoueurs){
             nombreJoueurs /= 2;

@@ -273,6 +273,6 @@ public class VueMenu extends Observable {
         window.setVisible(true);
     }
     public void hide(){
-        window.dispose();
+        window.setVisible(false);
     }
 }

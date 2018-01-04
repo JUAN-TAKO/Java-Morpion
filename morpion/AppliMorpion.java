@@ -36,6 +36,7 @@ public class AppliMorpion implements Observer{
                 n.add("Delphine");
                 n.add("Julian");
                 controleur = new ControleurSimple(3, 3, 2, n);
+                controleur.addObserver(this);
             break;
             
             case TOURNOI:
@@ -49,9 +50,14 @@ public class AppliMorpion implements Observer{
                 n.add("Thibaut");
                 n.add("Joueur");
                 controleur = new ControleurTournoi(3, 3, 2, n);
-            break;
+                controleur.addObserver(this);
+                break;
             
             case MULTI:
+            break;
+            
+            case TERMINE:
+                menu.afficher();
             break;
         }
     }
