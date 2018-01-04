@@ -120,6 +120,7 @@ public class VueMenu extends Observable {
         BPMultiple.setCursor(Cursor.getPredefinedCursor(12));
         BPMultiple.setPreferredSize(new Dimension(150,30));
         BPMultiple.setFont(f2);
+        BPMultiple.setVisible(false);
         
         BQuitter = new JButton("Quitter");
         BQuitter.setBackground(Color.GRAY);
@@ -274,5 +275,8 @@ public class VueMenu extends Observable {
     }
     public void hide(){
         window.setVisible(false);
+    }
+     public void dispose(){
+        window.dispose();
     }
 }

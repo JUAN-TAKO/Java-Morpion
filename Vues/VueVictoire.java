@@ -11,13 +11,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import Utils.*;
+import java.util.Observable;
 /**
  *
  * @author Delphine Clary
  */
 
 
-public class VueVictoire {
+public class VueVictoire extends Observable{
     
     private JFrame window;
     private JPanel main;
@@ -28,6 +29,8 @@ public class VueVictoire {
     private JLabel labelGagnant;
     private JPanel symbole;
     private JLabel s;
+    
+    private JPanel retour;
     
     
     public VueVictoire(){
@@ -49,6 +52,53 @@ public class VueVictoire {
     symbole.add(s);
     main.add(symbole, BorderLayout.CENTER);
     victoire = new ImageIcon("src/images/win.png");
+    
+    retour = new JPanel();
+    main.add(retour, BorderLayout.SOUTH);
+    JButton r = new JButton("Retour au menu principal");
+    retour.add(r);
+    
+//    r.addActionListener(new ActionListener() {
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//                setChanged();
+//                Message m = new Message(MessageType.RETOUR);; 
+//                notifyObservers(m);
+//                clearChanged();
+//    
+//        }
+//    });
+    
+    r.addMouseListener(new MouseListener(){
+        @Override
+        public void mouseClicked(MouseEvent e) {
+                setChanged();
+                Message m = new Message(MessageType.RETOUR);; 
+                notifyObservers(m);
+                clearChanged();
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+           // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+        
+    });
     }
 
     
@@ -73,5 +123,9 @@ public class VueVictoire {
     public void afficher(){
         window.setVisible(true);
         afficherSymbole();
+    }
+    
+     public void dispose(){
+        window.dispose();
     }
 }

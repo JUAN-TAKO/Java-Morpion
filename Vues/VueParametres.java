@@ -323,4 +323,10 @@ public class VueParametres extends Observable{
     public void afficher(){
         window.setVisible(true);
     }
+    
+    public void dispose(){
+        window.dispose();
+    }
+    
+
 }

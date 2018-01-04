@@ -17,6 +17,7 @@ public enum MessageType{
     SIMPLE,
     MULTI,
     TOURNOI,
-    PARAMETRE;
+    PARAMETRE,
+    RETOUR;
     
  }

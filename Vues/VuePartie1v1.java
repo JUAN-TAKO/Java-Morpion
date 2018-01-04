@@ -278,4 +278,5 @@ public class VuePartie1v1 extends Observable implements ActionListener{
         }
     }
     
+     
 }

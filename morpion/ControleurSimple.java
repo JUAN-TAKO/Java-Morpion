@@ -33,6 +33,7 @@ public class ControleurSimple extends Observable implements Observer{
         vp.addObserver(this);
         vp.afficher();
         vv = new VueVictoire();
+        vv.addObserver(this);
     }
     
     public void update(Observable o, Object arg){
@@ -92,9 +93,19 @@ public class ControleurSimple extends Observable implements Observer{
                  j1.setSymbole(State.Cross);
                  j2 = joueurs.get(0);
                  j2.setSymbole(State.Circle);
-                 Controleur1V1 controleur = new Controleur1V1(mp.getTailleGrille(), mp.getNbCoups(), j1, j2);
+                 controleur = new Controleur1V1(mp.getTailleGrille(), mp.getNbCoups(), j1, j2);
                  controleur.addObserver(this);
+                 vp.dispose();
             break;
+            
+            case RETOUR:
+                vv.dispose();
+                controleur.dispose();
+                 setChanged();
+                Message mb = new Message(MessageType.RETOUR);; 
+                notifyObservers(mb);
+                clearChanged();
+            break;    
         }
     }
 }
