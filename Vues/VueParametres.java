@@ -107,11 +107,12 @@ public class VueParametres extends Observable{
         listeTailleGrille = new JComboBox();
         listeTailleGrille.setPreferredSize(new Dimension(50,30));
         listeTailleGrille.addItem("3x3");
+        listeTailleGrille.addItem("4x4");
         listeTailleGrille.addItem("5x5");
         listeTailleGrille.addItem("7x7");
         listeTailleGrille.addItem("9x9");
         
-        int[] tableauTailleGrille = new int[]{3,5,7,9};
+        int[] tableauTailleGrille = new int[]{3,4,5,7,9};
         panelListeGrille.add(listeTailleGrille);
         panelTailleGrille.add(panelListeGrille);
         panelCentre.add(panelTailleGrille);
@@ -137,7 +138,7 @@ public class VueParametres extends Observable{
          
           panelNbCoups.add(panelListeNb);
           
-          int[] tableauNbCoups = new int[]{3,4,5,6,7,8,9};
+          int[] tableauNbCoups = new int[]{3,4,5};
           
         // selection du nombre de joueurs
         
@@ -241,7 +242,6 @@ public class VueParametres extends Observable{
                 MessageParametrage m = new MessageParametrage(MessageType.PARAMETRE, 
                                                               tableauTailleGrille[listeTailleGrille.getSelectedIndex()],
                                                               tableauNbCoups[listeNbCoups.getSelectedIndex()],
-                                                              tableauListeDeroulante[listeDeroulante.getSelectedIndex()],
                                                               getText()
                                                               );
                 notifyObservers(m);
@@ -304,26 +304,12 @@ public class VueParametres extends Observable{
         else if(tailleG == 1){ //si elle est de 5x5 on peut choisir d'aligner 3, 4 ou 5 symboles pour gagner
             listeNbCoups.addItem(3);  
             listeNbCoups.addItem(4);  
-            listeNbCoups.addItem(5);  
             
         }
-        
-        else if(tailleG == 2){ //si elle est de 5x5 on peut choisir d'aligner 3, 4, 5, 6 ou 7 symboles pour gagner
-            listeNbCoups.addItem(3);  
-            listeNbCoups.addItem(4);  
-            listeNbCoups.addItem(5);
-            listeNbCoups.addItem(6);
-            listeNbCoups.addItem(7);  
-  
-        }
-        
         else{
             listeNbCoups.addItem(3);  
             listeNbCoups.addItem(4);  
             listeNbCoups.addItem(5);
-            listeNbCoups.addItem(6);
-            listeNbCoups.addItem(7); 
-            listeNbCoups.addItem(9);
         }
     }
     

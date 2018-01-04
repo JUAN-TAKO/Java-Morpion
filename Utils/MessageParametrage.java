@@ -15,14 +15,12 @@ public class MessageParametrage extends Message {
     
     private int tailleGrille;
     private int nbCoups;
-    private int nbJoueurs;
     private ArrayList<String> nomsJoueurs;
     
-    public MessageParametrage(MessageType m, int tG, int nbJ, int nbC, ArrayList<String> nomsJ){   
+    public MessageParametrage(MessageType m, int tG, int nbC, ArrayList<String> nomsJ){   
         super(m);
         tailleGrille = tG;
         nbCoups = nbC;
-        nbJoueurs = nbJ;
         nomsJoueurs = nomsJ;
     }
     
@@ -31,7 +29,7 @@ public class MessageParametrage extends Message {
     }
     
     public int getNbJoueurs(){
-        return nbJoueurs;
+        return nomsJoueurs.size();
     }
     
     public int getNbCoups(){
