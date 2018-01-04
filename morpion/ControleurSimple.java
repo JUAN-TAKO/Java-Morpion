@@ -53,6 +53,7 @@ public class ControleurSimple extends Observable implements Observer{
                     State stmp = j2.getSymbole();
                     j2.setSymbole(j1.getSymbole());
                     j1.setSymbole(stmp);
+                    controleur.reset(j1, j2);
                    
                 }
                 break;

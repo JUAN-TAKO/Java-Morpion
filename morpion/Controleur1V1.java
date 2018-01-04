@@ -46,9 +46,8 @@ public class Controleur1V1 extends Observable implements Observer{
         j1 = joueur1;
         j2 = joueur2;
         jcourant = j1;
-        System.out.println(j1.getNom());
-        System.out.println(j1.getSymbole());
         grille.reset();
+        vue.setJoueurs(j1.getNom(), j2.getNom());
         vue.update(grille.getStates());
     }
     private void next(){
@@ -105,7 +104,6 @@ public class Controleur1V1 extends Observable implements Observer{
                 notifyObservers(ms);
                 clearChanged();
                 active = true;
-                grille.reset();
                 vue.update();
         }
     }
