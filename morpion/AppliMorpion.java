@@ -33,9 +33,8 @@ public class AppliMorpion implements Observer{
             
             case SIMPLE:
                 menu.hide();
-                n.add("Delphine");
-                n.add("Julian");
-                controleur = new ControleurSimple(3, 3, 2, n);
+               
+                controleur = new ControleurSimple(2);
                 controleur.addObserver(this);
             break;
             

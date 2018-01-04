@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Observable;
 
 
@@ -72,9 +73,17 @@ public class VueParametres extends Observable{
         
          // =================================================================================
         // CENTRE
-        JPanel panelCentre = new JPanel(new GridLayout(4,1,2,2));
-        panelCentre.setLocation(400,250);
-        mainPanel.add(panelCentre, BorderLayout.CENTER);
+        JPanel panelCentre;
+        if(version == 1){
+            panelCentre = new JPanel(new GridLayout(4,1,2,2));
+            panelCentre.setLocation(400,250);
+            mainPanel.add(panelCentre, BorderLayout.CENTER);
+        }
+        else{
+            panelCentre = new JPanel(new GridLayout(3,1,2,2));
+            panelCentre.setLocation(400,250);
+            mainPanel.add(panelCentre, BorderLayout.CENTER);
+        }
          // =================================================================================
         // EST
         JPanel panelEst = new JPanel();
@@ -150,14 +159,23 @@ public class VueParametres extends Observable{
               panelListeD = new JPanel();
               panelNbJoueurs.add(panelListeD);
               panelListeD.add(listeDeroulante);
+              // Noms Joueurs
+              panelPseudos = new JPanel(new GridLayout(1,2));
+              panelPseudos.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+              panelCentre.add(panelPseudos);
+
+              //Choix des pseudos
+             
           }
-          else if(version ==0){
-              panelNbJoueurs = new JPanel(new GridLayout(1,1));
-              panelLabelNbJoueurs = new JPanel();
-              panelNbJoueurs.add(panelLabelNbJoueurs);
-              panelCentre.add(panelNbJoueurs);
-              panelLabelNbJoueurs.add(new JLabel("Nombre de joueurs : "));
-              panelListeD = new JPanel();
+          else if(version == 0){
+              panelPseudos = new JPanel(new GridLayout(1,2));
+              panelLabelPseudos = new JPanel();
+              panelLabelPseudos.add(new JLabel("Noms des joueurs : "));
+              panelPseudos.add(panelLabelPseudos);
+              panelChampsPseudos = new JPanel();
+              panelPseudos.add(panelChampsPseudos);
+              panelCentre.add(panelPseudos);
+              updateNbr();
           }
         
      
@@ -173,17 +191,7 @@ public class VueParametres extends Observable{
         });
           
         
-        // Noms Joueurs
-        panelPseudos = new JPanel(new GridLayout(1,2));
-        panelPseudos.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
-        panelCentre.add(panelPseudos);
-        
-        //Choix des pseudos
-        panelLabelPseudos = new JPanel();
-        panelLabelPseudos.add(new JLabel("Noms des joueurs : "));
-        panelPseudos.add(panelLabelPseudos);
-        panelChampsPseudos = new JPanel();
-        panelPseudos.add(panelChampsPseudos);
+
         
         panelBoutons = new JPanel(new GridLayout(1,2));
         boutonQuitter = new JButton("Quitter");
@@ -196,7 +204,7 @@ public class VueParametres extends Observable{
         panelBoutons.add(panelValider);
         panelSud.add(panelBoutons);
         
-        updateNbr();
+      
         
         boutonQuitter.addMouseListener(new MouseListener(){
             @Override
@@ -233,7 +241,8 @@ public class VueParametres extends Observable{
                 MessageParametrage m = new MessageParametrage(MessageType.PARAMETRE, 
                                                               tableauTailleGrille[listeTailleGrille.getSelectedIndex()],
                                                               tableauNbCoups[listeNbCoups.getSelectedIndex()],
-                                                              tableauListeDeroulante[listeDeroulante.getSelectedIndex()]
+                                                              tableauListeDeroulante[listeDeroulante.getSelectedIndex()],
+                                                              getText()
                                                               );
                 notifyObservers(m);
                 clearChanged();
@@ -266,8 +275,9 @@ public class VueParametres extends Observable{
                 if(listeDeroulante.getSelectedIndex() < 3){ //si le nombre de joueurs sélectionné est <= 8 (et donc l'indice dans la LD < 3) on ordonne les champs texte en 1 colonne
                      panelC2 = new JPanel(new GridLayout(nbJ,1));
                      panelChampsPseudos.add(panelC2);
-                     for (int i = 0; i < nbJ; i++) {  
-                        panelC2.add(new JTextField("                       "));
+                     for (int i = 0; i < nbJ; i++) { 
+                        JTextField a = new JTextField();
+                        panelC2.add(a);
                     }
                 }
                 else{
@@ -317,6 +327,13 @@ public class VueParametres extends Observable{
         }
     }
     
+    public ArrayList<String> getText(){
+        ArrayList<String> nomsJoueurs = new ArrayList<>();
+        for(int i = 0 ; i <= panelC2.getComponentCount() ; i++){
+           nomsJoueurs.add(((JTextField)panelC2.getComponent(i)).getText());
+        }
+        return nomsJoueurs;
+    }
     public void afficher(){
         window.setVisible(true);
     }
