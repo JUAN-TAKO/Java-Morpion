@@ -219,6 +219,14 @@ public class VuePartie1v1 extends Observable implements ActionListener{
     private ImageIcon resizeIcon(ImageIcon ii, int width){
         return new ImageIcon(ii.getImage().getScaledInstance(width, width, java.awt.Image.SCALE_AREA_AVERAGING));
     }
+    public void setJoueurs(String nj1, String nj2){
+        labelJoueur1.setText(nj1);
+        labelJoueur2.setText(nj2);
+        labelJoueur1.revalidate();
+        labelJoueur2.revalidate();
+        labelJoueur1.repaint();
+        labelJoueur2.repaint();
+    }
     public void setJoueurActif(){
         
     }
