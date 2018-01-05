@@ -106,7 +106,14 @@ public class ControleurSimple extends Observable implements Observer{
                 Message mb = new Message(MessageType.RETOUR);; 
                 notifyObservers(mb);
                 clearChanged();
-            break;    
+            break;  
+            case QUITTER:
+                vp.dispose();
+                setChanged();
+                Message mq = new Message(MessageType.RETOUR);; 
+                notifyObservers(mq);
+                clearChanged();
+            break;
         }
     }
 }

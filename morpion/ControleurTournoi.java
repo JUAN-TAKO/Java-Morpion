@@ -27,49 +27,18 @@ public class ControleurTournoi extends Observable implements Observer{
     private Joueur j1;
     private Joueur j2;
     private VueParametres vp;
+    private VueVictoire v;
     
-    public ControleurTournoi(int taille, int ligne, int score, ArrayList<String> noms){
+    public ControleurTournoi(int score){
         gagnants = new ArrayList<>();
         joueurs = new ArrayList<>();
-        size = taille;
-        ligneMin = ligne;
         SCORE_MIN = score;
         indexJoueurs = 0;
         indexGagnants = 0;
-        nombreJoueurs = noms.size();
         vp = new VueParametres(1);
+        vp.addObserver(this);
         vp.afficher();
-        Collections.shuffle(noms);
-        HashMap<String, Integer> mapNoms = new HashMap<>();
-        for(int i = 0; i < noms.size(); i++){
-            if(noms.get(i) == ""){
-                noms.set(i, "Joueur");
-            }
-            String s = noms.get(i);
-            Integer n = mapNoms.get(s);
-            if(n == null){
-                mapNoms.put(s, -1);
-            }
-            else if(n == -1){
-                mapNoms.put(s, 2);
-            }
-            else{
-                mapNoms.put(s, n+1);
-            }
-        }
-        for(String s : noms){
-            Integer n = mapNoms.get(s);
-            if(n == -1){
-                joueurs.add(new Joueur(null, s));
-            }
-            else{
-                joueurs.add(new Joueur(null, s + " " + n));
-            }
-            mapNoms.put(s, n-1);
-        }
-        gagnants.add(joueurs);
-        gagnants.add(new ArrayList<>());
-        nouvellePartie();
+        
     }
     private void nouvellePartie(){
         j1 = gagnants.get(indexGagnants).get(indexJoueurs);
@@ -98,7 +67,8 @@ public class ControleurTournoi extends Observable implements Observer{
             indexGagnants++;
         }
         if(nombreJoueurs == 1){
-            VueVictoire v = new VueVictoire();
+            v = new VueVictoire();
+            v.addObserver(this);
             v.afficherJoueur(j.getNom());
             v.afficherSymbole();
             v.afficher();
@@ -124,9 +94,64 @@ public class ControleurTournoi extends Observable implements Observer{
                     State stmp = j2.getSymbole();
                     j2.setSymbole(j1.getSymbole());
                     j1.setSymbole(stmp);
+                    controleur.reset(j1, j2);
                 }
                 break;
-                       
+            
+            case PARAMETRE:
+                MessageParametrage mp = (MessageParametrage)arg;
+                ArrayList<String> noms = mp.getNomsJoueurs();
+                nombreJoueurs = noms.size();
+                size = mp.getTailleGrille();
+                ligneMin = mp.getNbCoups();
+                Collections.shuffle(noms);
+                HashMap<String, Integer> mapNoms = new HashMap<>();
+                for(int i = 0; i < noms.size(); i++){
+                    if(noms.get(i).equals("")){
+                        noms.set(i, "Joueur");
+                    }
+                    String s = noms.get(i);
+                    Integer n = mapNoms.get(s);
+                    if(n == null){
+                        mapNoms.put(s, -1);
+                    }
+                    else if(n == -1){
+                        mapNoms.put(s, 2);
+                    }
+                    else{
+                        mapNoms.put(s, n+1);
+                    }
+                }
+                for(String s : noms){
+                    Integer n = mapNoms.get(s);
+                    if(n == -1){
+                        joueurs.add(new Joueur(null, s));
+                    }
+                    else{
+                        joueurs.add(new Joueur(null, s + " " + n));
+                    }
+                    mapNoms.put(s, n-1);
+                }
+                gagnants.add(joueurs);
+                gagnants.add(new ArrayList<>());
+                nouvellePartie();
+            break;
+            
+            case QUITTER:
+                vp.dispose();
+                setChanged();
+                Message mq = new Message(MessageType.RETOUR);; 
+                notifyObservers(mq);
+                clearChanged();
+            break;
+            case RETOUR:
+                controleur.dispose();
+                v.dispose();
+                setChanged();
+                Message mr = new Message(MessageType.RETOUR);; 
+                notifyObservers(mr);
+                clearChanged();
+            break; 
         }
     }
 }

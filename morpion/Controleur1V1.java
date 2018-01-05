@@ -37,7 +37,10 @@ public class Controleur1V1 extends Observable implements Observer{
         jcourant = j1;
         active = true;
         vue.addObserver(this);
+        vue.updateSymbole(j1.getSymbole(), j2.getSymbole());
+        vue.setJoueurActif(true);
         vue.setVisible(true);
+        
     }
     public void dispose(){
         vue.dispose();
@@ -45,17 +48,25 @@ public class Controleur1V1 extends Observable implements Observer{
     public void reset(Joueur joueur1, Joueur joueur2){
         j1 = joueur1;
         j2 = joueur2;
-        jcourant = j1;
+        if(j1.getSymbole() == State.Cross){
+            jcourant = j1;
+        }
+        else{
+            jcourant = j2;
+        }
         grille.reset();
-        vue.setJoueurs(j1.getNom(), j2.getNom());
+        System.out.println(j1.getSymbole());
+        vue.updateSymbole(j1.getSymbole(), j2.getSymbole());
         vue.update(grille.getStates());
     }
     private void next(){
         if(jcourant == j1){
             jcourant = j2;
+            vue.setJoueurActif(false);
         }
         else{
             jcourant = j1;
+            vue.setJoueurActif(true);
         }
     }
     

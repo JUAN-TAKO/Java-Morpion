@@ -28,7 +28,7 @@ public class AppliMorpion implements Observer{
         ArrayList<String> n = new ArrayList();
         switch(m.getType()){
             case QUITTER:
-                menu.hide();
+                menu.dispose();
             break;
             
             case SIMPLE:
@@ -40,15 +40,7 @@ public class AppliMorpion implements Observer{
             
             case TOURNOI:
                 menu.hide();
-                n.add("Delphine");
-                n.add("Julian");
-                n.add("Delphine");
-                n.add("");
-                n.add("");
-                n.add("Damien");
-                n.add("Thibaut");
-                n.add("Joueur");
-                controleur = new ControleurTournoi(3, 3, 2, n);
+                controleur = new ControleurTournoi(2);
                 controleur.addObserver(this);
                 break;
             

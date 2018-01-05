@@ -69,6 +69,9 @@ public class VuePartie1v1 extends Observable implements ActionListener{
     
     private ArrayList<State> cases;
     
+    State stateJ1;
+    State stateJ2;
+    
     private final int BLINK_AMOUNT = 6;
     private Timer blinkTimer;
     private int blinkCount;
@@ -80,6 +83,8 @@ public class VuePartie1v1 extends Observable implements ActionListener{
         nomJoueur1 = nomJ1;
         nomJoueur2 = nomJ2;
         
+        stateJ1 = State.Cross;
+        stateJ2 = State.Circle;
         window = new JFrame();
         window.setSize(1150, 700);
         
@@ -216,19 +221,41 @@ public class VuePartie1v1 extends Observable implements ActionListener{
         }
         return r;
     }
+    
+        private ImageIcon getIconHalf(State s){
+        ImageIcon r = null;
+        if(s != null){
+            switch (s){
+                case Cross:
+                    r = crossHalf;
+                    break;
+                case Circle:
+                    r = circleHalf;
+                    break;
+            }
+        }
+        return r;
+    }
     private ImageIcon resizeIcon(ImageIcon ii, int width){
         return new ImageIcon(ii.getImage().getScaledInstance(width, width, java.awt.Image.SCALE_AREA_AVERAGING));
     }
-    public void setJoueurs(String nj1, String nj2){
-        labelJoueur1.setText(nj1);
-        labelJoueur2.setText(nj2);
-        labelJoueur1.revalidate();
-        labelJoueur2.revalidate();
-        labelJoueur1.repaint();
-        labelJoueur2.repaint();
+    public void updateSymbole(State sj1, State sj2){
+        stateJ1 = sj1;
+        stateJ2 = sj2;
+        symboleJoueur1.revalidate();
+        symboleJoueur2.revalidate();
+        symboleJoueur1.repaint();
+        symboleJoueur2.repaint();
     }
-    public void setJoueurActif(){
-        
+    public void setJoueurActif(boolean j1Actif){
+        if(j1Actif){
+            panelOuest.setBorder(BorderFactory.createLineBorder(Color.GREEN, 4));
+            panelEst.setBorder(null);
+        }
+        else{
+            panelEst.setBorder(BorderFactory.createLineBorder(Color.GREEN, 4));
+            panelOuest.setBorder(null);
+        }
     }
     public void update(ArrayList<State> states){
         cases = states;
@@ -239,8 +266,8 @@ public class VuePartie1v1 extends Observable implements ActionListener{
             State s = cases.get(i);
             updateCase(i, s);
         }
-        symboleJoueur2.setIcon(circleHalf);
-        symboleJoueur1.setIcon(crossHalf);
+        symboleJoueur1.setIcon(getIconHalf(stateJ1));
+        symboleJoueur2.setIcon(getIconHalf(stateJ2));
         panelPrincipal.revalidate();
         panelPrincipal.repaint();
     }

@@ -1,5 +1,6 @@
 package Vues;
 
+import Utils.Message;
 import Utils.MessageIndex;
 import Utils.MessageParametrage;
 import Utils.MessageType;
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 
@@ -51,19 +53,27 @@ public class VueParametres extends Observable{
     public VueParametres(int version){
     
     window = new JFrame();
-    window.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-    window.setSize(800,800);
+    window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
+    window.setSize(900,450);
     Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
     window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
     window.setTitle("PARAMETRAGE D'UNE PARTIE");
+    
+    window.addWindowListener(new java.awt.event.WindowAdapter(){
+        @Override
+        public void windowClosing(WindowEvent winEvt){
+            setChanged();
+            Message m = new Message(MessageType.QUITTER);
+            notifyObservers(m);
+            clearChanged();
+        }
+    });
 
     mainPanel = new JPanel(new BorderLayout());
     window.add(mainPanel);
 
     
-         // =================================================================================
-        // NORD
-        JPanel panelNord = new JPanel() ;
+
 
          // =================================================================================
         // OUEST 
@@ -71,17 +81,23 @@ public class VueParametres extends Observable{
         panelOuest.add(new JLabel("  "));
         mainPanel.add(panelOuest, BorderLayout.WEST);
         
-         // =================================================================================
-        // CENTRE
+
         JPanel panelCentre;
+        JPanel panelNord;
         if(version == 1){
-            panelCentre = new JPanel(new GridLayout(4,1,2,2));
-            panelCentre.setLocation(400,250);
+            panelNord = new JPanel(new GridLayout(3,1)) ;
+            mainPanel.add(panelNord, BorderLayout.NORTH);
+            // =================================================================================
+            // CENTRE
+            panelCentre = new JPanel(new GridLayout());
             mainPanel.add(panelCentre, BorderLayout.CENTER);
         }
-        else{
-            panelCentre = new JPanel(new GridLayout(3,1,2,2));
-            panelCentre.setLocation(400,250);
+        else{         
+            // =================================================================================
+            // NORD
+            panelNord = new JPanel(new GridLayout(2,1)) ;
+            mainPanel.add(panelNord, BorderLayout.NORTH);
+            panelCentre = new JPanel(new GridLayout(3,1));
             mainPanel.add(panelCentre, BorderLayout.CENTER);
         }
          // =================================================================================
@@ -99,10 +115,7 @@ public class VueParametres extends Observable{
         //Sélection de la taille de la grille
         
         panelTailleGrille = new JPanel(new GridLayout(1,2,1,1));
-        
-        panelLabelListeGrille = new JPanel();
-        panelLabelListeGrille.add(new JLabel("Taille de la grille"));
-        panelTailleGrille.add(panelLabelListeGrille);
+        panelTailleGrille.add(new JLabel("Taille de la grille : ", SwingConstants.RIGHT));
         panelListeGrille = new JPanel();
         listeTailleGrille = new JComboBox();
         listeTailleGrille.setPreferredSize(new Dimension(50,30));
@@ -115,7 +128,7 @@ public class VueParametres extends Observable{
         int[] tableauTailleGrille = new int[]{3,4,5,7,9};
         panelListeGrille.add(listeTailleGrille);
         panelTailleGrille.add(panelListeGrille);
-        panelCentre.add(panelTailleGrille);
+        panelNord.add(panelTailleGrille);
         
         listeTailleGrille.addActionListener(new ActionListener() {
         @Override
@@ -125,10 +138,8 @@ public class VueParametres extends Observable{
     });
         //Sélection du nombre de coups pour gagner
           panelNbCoups = new JPanel(new GridLayout(1,2,2,2));
-          panelCentre.add(panelNbCoups);
-          panelLabelNb = new JPanel();
-          panelLabelNb.add(new JLabel("Nombre de symboles à aligner pour gagner : "));
-          panelNbCoups.add(panelLabelNb);
+          panelNord.add(panelNbCoups);
+          panelNbCoups.add(new JLabel("Nombre de symboles à aligner : ", SwingConstants.RIGHT));
           panelListeNb = new JPanel();
           listeNbCoups = new JComboBox(); 
           listeNbCoups.setPreferredSize(new Dimension(50,30));
@@ -153,26 +164,29 @@ public class VueParametres extends Observable{
         
           if(version == 1){ //si on est en mode tournoi alors on peut choisir un nombre de joueurs
               panelNbJoueurs = new JPanel(new GridLayout(1,2));
-              panelLabelNbJoueurs = new JPanel();
-              panelNbJoueurs.add(panelLabelNbJoueurs);
-              panelCentre.add(panelNbJoueurs);
-              panelLabelNbJoueurs.add(new JLabel("Nombre de joueurs : "));
-              panelListeD = new JPanel();
-              panelNbJoueurs.add(panelListeD);
-              panelListeD.add(listeDeroulante);
+              JPanel panelListeNbJoueurs;
+              panelListeNbJoueurs = new JPanel();
+              panelNbJoueurs.add(new JLabel("Nombre de joueurs : ", SwingConstants.RIGHT));
+              panelNord.add(panelNbJoueurs);
+
+              panelListeNbJoueurs.add(listeDeroulante);
+              panelNbJoueurs.add(panelListeNbJoueurs);
+              panelChampsPseudos = new JPanel();
+              
               // Noms Joueurs
               panelPseudos = new JPanel(new GridLayout(1,2));
+              panelPseudos.add(new JLabel("Noms des joueurs : ", SwingConstants.RIGHT));
+              panelPseudos.add(panelChampsPseudos);
               panelPseudos.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
               panelCentre.add(panelPseudos);
 
               //Choix des pseudos
-             
+             updateNbr();
           }
           else if(version == 0){
-              panelPseudos = new JPanel(new GridLayout(1,2));
-              panelLabelPseudos = new JPanel();
-              panelLabelPseudos.add(new JLabel("Noms des joueurs : "));
-              panelPseudos.add(panelLabelPseudos);
+              panelPseudos = new JPanel(new GridLayout(1,2));              
+             
+              panelPseudos.add(new JLabel("Noms des joueurs : ", SwingConstants.RIGHT));
               panelChampsPseudos = new JPanel();
               panelPseudos.add(panelChampsPseudos);
               panelCentre.add(panelPseudos);
@@ -196,10 +210,16 @@ public class VueParametres extends Observable{
         
         panelBoutons = new JPanel(new GridLayout(1,2));
         boutonQuitter = new JButton("Quitter");
+        boutonQuitter.setCursor(Cursor.getPredefinedCursor(12));
+        boutonQuitter.setPreferredSize(new Dimension(150,30));
         panelQuitter = new JPanel();
         boutonValider = new JButton("Valider");
+        boutonValider.setBackground(Color.GRAY);
+        boutonValider.setCursor(Cursor.getPredefinedCursor(12));
+        boutonValider.setPreferredSize(new Dimension(150,30));
         panelValider = new JPanel();
         panelQuitter.add(boutonQuitter);
+        boutonQuitter.setBackground(Color.GRAY);
         panelValider.add(boutonValider);
         panelBoutons.add(panelQuitter);
         panelBoutons.add(panelValider);
@@ -207,31 +227,7 @@ public class VueParametres extends Observable{
         
       
         
-        boutonQuitter.addMouseListener(new MouseListener(){
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                window.dispose(); //ferme la fenêtre quand on clique sur quitter
-            
-            }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-          
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-             
-        }
-        });
+       
         
         
         boutonValider.addMouseListener(new MouseListener() {
@@ -259,13 +255,44 @@ public class VueParametres extends Observable{
 
         @Override
         public void mouseEntered(MouseEvent e) {
+            boutonValider.setBackground(Color.lightGray);
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
+             boutonValider.setBackground(Color.GRAY);
         }
     });
         
+        boutonQuitter.addMouseListener(new MouseListener(){
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            setChanged();
+            Message m = new Message(MessageType.QUITTER);
+            notifyObservers(m);
+            clearChanged();
+                    }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            boutonQuitter.setBackground(Color.lightGray);        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            boutonQuitter.setBackground(Color.GRAY);        
+        }
+            
+        });
         
     }
     
@@ -277,6 +304,7 @@ public class VueParametres extends Observable{
                      panelChampsPseudos.add(panelC2);
                      for (int i = 0; i < nbJ; i++) { 
                         JTextField a = new JTextField("");
+                        a.setPreferredSize(new Dimension(100,25));
                         panelC2.add(a);
                     }
                 }
@@ -284,7 +312,9 @@ public class VueParametres extends Observable{
                     panelC2 = new JPanel(new GridLayout(8,nbJ/8)); //s'il est > 8 on les ordonne par colonne de 8
                     panelChampsPseudos.add(panelC2);
                      for (int i = 0; i < nbJ; i++) {  
-                        panelC2.add(new JTextField(""));
+                         JTextField a = new JTextField("");
+                         a.setPreferredSize(new Dimension(100,25));
+                         panelC2.add(a);
                     }
                 }
         panelChampsPseudos.revalidate();
@@ -328,5 +358,7 @@ public class VueParametres extends Observable{
         window.dispose();
     }
     
-
+    public void hide(){
+        window.setVisible(false);
+    }
 }

@@ -57,17 +57,8 @@ public class VueVictoire extends Observable{
     main.add(retour, BorderLayout.SOUTH);
     JButton r = new JButton("Retour au menu principal");
     retour.add(r);
-    
-//    r.addActionListener(new ActionListener() {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//                setChanged();
-//                Message m = new Message(MessageType.RETOUR);; 
-//                notifyObservers(m);
-//                clearChanged();
-//    
-//        }
-//    });
+    r.setBackground(Color.GRAY);
+    r.setCursor(Cursor.getPredefinedCursor(12));
     
     r.addMouseListener(new MouseListener(){
         @Override
@@ -90,13 +81,11 @@ public class VueVictoire extends Observable{
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+        r.setBackground(Color.lightGray);        }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+        r.setBackground(Color.GRAY);        }
         
     });
     }
