@@ -100,7 +100,9 @@ public class ControleurSimple extends Observable implements Observer{
             break;
             
             case RETOUR:
-                vv.dispose();
+                if(vv != null){
+                   vv.dispose(); 
+                }
                 controleur.dispose();
                  setChanged();
                 Message mb = new Message(MessageType.RETOUR);; 

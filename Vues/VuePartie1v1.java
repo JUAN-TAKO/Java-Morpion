@@ -16,6 +16,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -93,12 +95,20 @@ public class VuePartie1v1 extends Observable implements ActionListener{
                 loadImages();
             }
         });
+        window.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent we){
+               setChanged();
+                Message m = new Message(MessageType.QUITTER);
+                notifyObservers(m);
+                clearChanged(); 
+            }
+        });
         baseCircle = new ImageIcon("src/images/circle512.png");
         baseCross = new ImageIcon("src/images/cross512.png");
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
         
-        window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
         
         panelPrincipal = new JPanel(new BorderLayout());
         panelCentre = new JPanel(new BorderLayout());

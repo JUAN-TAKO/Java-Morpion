@@ -58,6 +58,8 @@ public class VueMenu extends Observable {
         window = new JFrame();
         window.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         window.setSize(600,400);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
         
         panelPrincipal = new JPanel(new BorderLayout());
         panelCentre = new JPanel(new BorderLayout());

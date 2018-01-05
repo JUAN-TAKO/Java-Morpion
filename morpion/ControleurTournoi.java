@@ -134,6 +134,7 @@ public class ControleurTournoi extends Observable implements Observer{
                 }
                 gagnants.add(joueurs);
                 gagnants.add(new ArrayList<>());
+                vp.dispose();
                 nouvellePartie();
             break;
             
@@ -146,7 +147,9 @@ public class ControleurTournoi extends Observable implements Observer{
             break;
             case RETOUR:
                 controleur.dispose();
-                v.dispose();
+                if(v != null){
+                   v.dispose(); 
+                }
                 setChanged();
                 Message mr = new Message(MessageType.RETOUR);; 
                 notifyObservers(mr);

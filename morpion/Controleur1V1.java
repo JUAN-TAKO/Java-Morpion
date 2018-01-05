@@ -116,6 +116,13 @@ public class Controleur1V1 extends Observable implements Observer{
                 clearChanged();
                 active = true;
                 vue.update();
+            break;
+            case QUITTER:
+                setChanged();
+                Message mr = new Message(MessageType.RETOUR);
+                notifyObservers(mr);
+                clearChanged();
+            break;
         }
     }
     
